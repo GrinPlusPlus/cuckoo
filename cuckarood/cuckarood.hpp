@@ -36,13 +36,8 @@ typedef uint64_t u64;
 #define PROOFSIZE 42
 #endif
 
-#if EDGEBITS > 30
+// This should theoretically be uint32_t for EDGEBITS of <= 30, but we're just verifying, so efficiency isn't critical.
 typedef uint64_t word_t;
-#elif EDGEBITS > 14
-typedef u32 word_t;
-#else // if EDGEBITS <= 14
-typedef uint16_t word_t;
-#endif
 
 // number of edges
 #define NEDGES2 ((word_t)1 << EDGEBITS)
@@ -116,7 +111,7 @@ struct SolverStats {
 
 // fills buffer with EDGE_BLOCK_SIZE siphash outputs for block containing edge in cuckaroo graph
 // return siphash output for given edge
-u64 sipblock(siphash_keys &keys, const word_t edge, u64 *buf) {
+static u64 sipblock(siphash_keys &keys, const word_t edge, u64 *buf) {
   siphash_state<25> shs(keys);
   word_t edge0 = edge & ~EDGE_BLOCK_MASK;
   for (u32 i=0; i < EDGE_BLOCK_SIZE; i++) {

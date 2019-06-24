@@ -30,7 +30,7 @@ typedef uint64_t word_t;
 
 // fills buffer with EDGE_BLOCK_SIZE siphash outputs for block containing edge in cuckaroo graph
 // return siphash output for given edge
-u64 sipblock(siphash_keys &keys, const word_t edge, u64 *buf) {
+static u64 sipblock(siphash_keys &keys, const word_t edge, u64 *buf) {
   siphash_state shs(keys);
   word_t edge0 = edge & ~EDGE_BLOCK_MASK;
   for (u32 i=0; i < EDGE_BLOCK_SIZE; i++) {
